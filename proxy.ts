@@ -17,7 +17,7 @@ function getRoleDashboard(role?: string) {
   }
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("rentnest_token")?.value;
   const role = request.cookies.get("rentnest_role")?.value;

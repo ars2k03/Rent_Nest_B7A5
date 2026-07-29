@@ -1,65 +1,142 @@
+import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight, Building2, ShieldCheck, Sparkles } from "lucide-react";
+import { propertyService } from "@/lib/services";
+import { PropertyCard } from "@/components/properties/property-card";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  let properties: Awaited<ReturnType<typeof propertyService.list>>["properties"] = [];
+
+  try {
+    const result = await propertyService.list({ limit: 3, isAvailable: "true" });
+    properties = result.properties;
+  } catch {
+    properties = [];
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div>
+      <section className="relative min-h-[88vh] overflow-hidden">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80"
+          alt="Modern rental home exterior"
+          fill
           priority
+          className="object-cover"
+          sizes="100vw"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b2f24]/92 via-[#0f5c44]/78 to-[#0f5c44]/35" />
+        <div className="relative mx-auto flex min-h-[88vh] max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+          <p className="animate-fade-up text-sm font-semibold uppercase tracking-[0.3em] text-[#d6efe4]">
+            RentNest
           </p>
+          <h1 className="animate-fade-up mt-4 max-w-3xl font-[family-name:var(--font-display)] text-5xl font-semibold leading-tight text-white sm:text-6xl">
+            RentNest
+          </h1>
+          <p className="animate-fade-up mt-5 max-w-xl text-lg text-[#e7f4ed]">
+            Discover verified rentals, request with confidence, and pay securely when approved.
+          </p>
+          <div className="animate-fade-up mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/properties">
+              <Button size="lg" className="w-full sm:w-auto">
+                Browse Properties
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/auth/register">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="w-full border-white/20 bg-white/10 text-white hover:bg-white/20 sm:w-auto"
+              >
+                List Your Property
+              </Button>
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            {
+              icon: Building2,
+              title: "Curated listings",
+              text: "Browse apartments, houses, and studios with rich details and availability status.",
+            },
+            {
+              icon: ShieldCheck,
+              title: "Secure payments",
+              text: "Approved tenants complete real Stripe checkout with verified backend status updates.",
+            },
+            {
+              icon: Sparkles,
+              title: "Role-based dashboards",
+              text: "Tenants, landlords, and admins each get tailored tools for their workflow.",
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="rounded-2xl border border-[var(--line)] bg-white p-6"
+            >
+              <item.icon className="h-6 w-6 text-[var(--brand)]" />
+              <h3 className="mt-4 text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+              <p className="mt-2 text-sm text-[var(--muted)]">{item.text}</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      <section className="bg-[var(--surface-muted)] py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--brand)]">
+                Featured
+              </p>
+              <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--ink)]">
+                Available properties
+              </h2>
+            </div>
+            <Link href="/properties" className="text-sm font-medium text-[var(--brand)]">
+              View all
+            </Link>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {properties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div className="rounded-3xl bg-[var(--brand)] p-8 text-white">
+          <h3 className="font-[family-name:var(--font-display)] text-3xl font-semibold">
+            For tenants
+          </h3>
+          <p className="mt-3 text-sm text-[#d9efe5]">
+            Search, request, pay after approval, and leave reviews when your stay is complete.
+          </p>
+          <Link href="/auth/register" className="mt-6 inline-block">
+            <Button variant="secondary">Join as tenant</Button>
+          </Link>
+        </div>
+        <div className="rounded-3xl border border-[var(--line)] bg-white p-8">
+          <h3 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--ink)]">
+            For landlords
+          </h3>
+          <p className="mt-3 text-sm text-[var(--muted)]">
+            Publish listings, manage availability, and approve rental requests from one dashboard.
+          </p>
+          <Link href="/auth/register" className="mt-6 inline-block">
+            <Button>List a property</Button>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

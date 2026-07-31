@@ -8,7 +8,7 @@
 
 ```text
 Frontend Repo  : https://github.com/ars2k03/Rent_Nest_B7A5
-Live Frontend  : https://b7a5.vercel.com
+Live Frontend  : https://b7a5.vercel.app
 Backend API    : https://rent-nest-b7a4.onrender.com
 Admin Email    : admin@rentnest.com
 Admin Password : Admin@12345

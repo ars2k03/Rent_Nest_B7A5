@@ -4,6 +4,18 @@
 
 ---
 
+## Submission
+
+```text
+Frontend Repo  : https://github.com/ars2k03/Rent_Nest_B7A5
+Live Frontend  : https://b7a5.vercel.com
+Backend API    : https://rent-nest-b7a4.onrender.com
+Admin Email    : admin@rentnest.com
+Admin Password : Admin@12345
+```
+
+---
+
 ## Project Overview
 
 RentNest is a modern, responsive **Next.js application** for a rental property marketplace. Landlords can list properties, manage availability, and approve or reject rental requests via an intuitive dashboard. Tenants can browse listings with advanced filtering, submit rental requests, and complete secure payments. Admins oversee the entire platform through a comprehensive moderation dashboard. 
